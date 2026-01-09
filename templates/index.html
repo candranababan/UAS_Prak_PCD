@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Aplikasi Pengolahan Citra Digital</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>📷 Aplikasi Pengolahan Citra Digital</header>
+
+<div class="card">
+<form method="POST" enctype="multipart/form-data">
+
+<div class="grid">
+  <div>
+    <label>Upload Gambar (boleh ganti kapan saja)</label>
+    <input type="file" name="image" accept="image/*">
+  </div>
+
+  <div>
+    <label>Metode</label>
+    <select name="method">
+      {% for m in ['rgb','hsv','threshold','otsu','erosi','dilasi','opening','closing','floodfill'] %}
+      <option value="{{ m }}" {{ 'selected' if method==m }}>{{ m|upper }}</option>
+      {% endfor %}
+    </select>
+  </div>
+</div>
+
+<label>Threshold: <b>{{ thresh }}</b></label>
+<input type="range" name="threshold" min="0" max="255" value="{{ thresh }}">
+
+<button type="submit">Proses</button>
+</form>
+</div>
+
+<div class="result">
+{% if original %}
+<div>
+<h3>Gambar Asli</h3>
+<img src="{{ url_for('static', filename=original) }}">
+</div>
+{% endif %}
+
+{% if result %}
+<div>
+<h3>Hasil</h3>
+<img src="{{ url_for('static', filename=result) }}">
+</div>
+{% endif %}
+</div>
+
+</body>
+</html>
